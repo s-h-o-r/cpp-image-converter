@@ -11,7 +11,6 @@ namespace img_lib {
 static const string_view PPM_SIG = "P6"sv;
 static const int PPM_MAX = 255;
 
-// реализуйте эту функцию самостоятельно
 bool SavePPM(const Path& file, const Image& image) {
     ofstream ofs(file, ios::binary);
     if (!ofs || !image) {
@@ -39,23 +38,16 @@ bool SavePPM(const Path& file, const Image& image) {
 }
 
 Image LoadPPM(const Path& file) {
-    // открываем поток с флагом ios::binary
-    // поскольку будем читать даные в двоичном формате
     ifstream ifs(file, ios::binary);
     std::string sign;
     int w, h, color_max;
 
-    // читаем заголовок: он содержит формат, размеры изображения
-    // и максимальное значение цвета
     ifs >> sign >> w >> h >> color_max;
 
-    // мы поддерживаем изображения только формата P6
-    // с максимальным значением цвета 255
     if (sign != PPM_SIG || color_max != PPM_MAX) {
         return {};
     }
 
-    // пропускаем один байт - это конец строки
     const char next = ifs.get();
     if (next != '\n') {
         return {};
