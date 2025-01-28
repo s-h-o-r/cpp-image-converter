@@ -64,7 +64,6 @@ bool SaveJPEG(const Path& file, const Image& image) {
     return true;
 }
 
-// структура из примера LibJPEG
 struct my_error_mgr {
     struct jpeg_error_mgr pub;
     jmp_buf setjmp_buffer;
@@ -72,14 +71,12 @@ struct my_error_mgr {
 
 typedef struct my_error_mgr* my_error_ptr;
 
-// функция из примера LibJPEG
 METHODDEF(void)
 my_error_exit (j_common_ptr cinfo) {
     my_error_ptr myerr = (my_error_ptr) cinfo->err;
     (*cinfo->err->output_message) (cinfo);
     longjmp(myerr->setjmp_buffer, 1);
 }
-// тип JSAMPLE фактически псевдоним для unsigned char
 void SaveScanlineToImage(const JSAMPLE* row, int y, Image& out_image) {
     Color* line = out_image.GetLine(y);
     for (int x = 0; x < out_image.GetWidth(); ++x) {
@@ -96,10 +93,6 @@ Image LoadJPEG(const Path& file) {
     JSAMPARRAY buffer;
     int row_stride;
 
-    // Тут не избежать функции открытия файла из языка C,
-    // поэтому приходится использовать конвертацию пути к string.
-    // Под Visual Studio это может быть опасно, и нужно применить
-    // нестандартную функцию _wfopen
 #ifdef _MSC_VER
     if ((infile = _wfopen(file.wstring().c_str(), "rb")) == NULL) {
 #else
