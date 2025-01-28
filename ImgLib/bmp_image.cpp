@@ -36,12 +36,10 @@ PACKED_STRUCT_BEGIN BitmapInfoHeader {
 }
 PACKED_STRUCT_END
 
-// функция вычисления отступа по ширине
 static int GetBMPStride(int w) {
     return 4 * ((w * 3 + 3) / 4);
 }
 
-// напишите эту функцию
 bool SaveBMP(const Path& file, const Image& image) {
     ofstream ofs(file, ios::binary);
     if (!ofs || !image) {
@@ -90,7 +88,6 @@ bool SaveBMP(const Path& file, const Image& image) {
     return true;
 }
 
-// напишите эту функцию
 Image LoadBMP(const Path& file) {
     ifstream ifs(file, ios::binary);
     BitmapFileHeader file_header;
